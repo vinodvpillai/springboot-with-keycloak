@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<Configuration status="WARN">
+    <Properties>
+        <Property name="log-path">logs</Property>
+    </Properties>
+    <Appenders>
+        <Console name="ConsoleAppender" target="SYSTEM_OUT">
+            <PatternLayout pattern="%highlight{%d [%t] [%traceId] %-5level: %msg%n%throwable}"/>
+        </Console>
+        <RollingFile name="LogToRollingFile" fileName="${log-path}/springboot-keycloak.log" filePattern="${log-path}/$${date:yyyy-MM-dd}/springboot-keycloak-%d{yyyy-MM-dd}-%i.log">
+            <PatternLayout>
+                <pattern>%d [%traceId] %-5p %c{1}:%L - %m%n</pattern>
+            </PatternLayout>
+            <Policies>
+                <TimeBasedTriggeringPolicy interval="1" modulate="true" />
+                <SizeBasedTriggeringPolicy size="1MB"/>
+            </Policies>
+            <DefaultRolloverStrategy max="2"/>
+        </RollingFile>
+    </Appenders>
+    <Loggers>
+        <Logger name="com.vinod.springboot.keycloak" level="trace" additivity="false">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="LogToRollingFile"/>
+        </Logger>
+        <Root level="info">
+            <AppenderRef ref="ConsoleAppender"/>
+            <AppenderRef ref="LogToRollingFile"/>
+        </Root>
+    </Loggers>
+</Configuration>
